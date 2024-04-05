@@ -7,13 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class PostDTO {
+public class PostUpdateDTO {
 
-    private Long id;
     private String title;
     private String desc;
-    private Long createdBy;
-    private Date createdDate;
-    private Date updatedDate;
 
 }

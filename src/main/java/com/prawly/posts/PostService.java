@@ -6,7 +6,7 @@ public interface PostService {
 
     PostDTO createPost(PostDTO postDTO);
 
-    PostDTO updatePost(Long id, PostDTO updatePostDTO);
+    PostDTO updatePost(Long id, PostUpdateDTO updatePostDTO);
 
     void deletePost(Long id);
 
