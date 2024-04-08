@@ -1,7 +1,5 @@
 package com.prawly.posts;
 
-import java.util.Date;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
