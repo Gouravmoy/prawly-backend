@@ -1,6 +1,7 @@
 package com.prawly.user;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -38,10 +39,13 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    private Date create_time;
+
     public User(String login, String password, UserRole role) {
         this.login = login;
         this.password = password;
         this.role = role;
+        this.create_time = new Date();
     }
 
     @Override

@@ -21,6 +21,13 @@ public class WebSecurityConfig {
     @Autowired
     JwtRequestFilter securityFilter;
 
+    private static final String[] AUTH_WHITE_LIST = {
+        "/v3/api-docs/**",
+        "/swagger-ui/**",
+        "/api-docs/**",
+        "/swagger-resources/**"
+};
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity)
             throws Exception {
@@ -29,6 +36,8 @@ public class WebSecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(new AntPathRequestMatcher("/authenticate")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/register")).permitAll()
+                        .requestMatchers(AUTH_WHITE_LIST).permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/swagger-ui/index.html")).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

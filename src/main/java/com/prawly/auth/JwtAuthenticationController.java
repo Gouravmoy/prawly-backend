@@ -1,6 +1,7 @@
 package com.prawly.auth;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.prawly.user.SignUpDTO;
+
 @RestController
 @CrossOrigin
 public class JwtAuthenticationController {
 
-    @Autowired
+	@Autowired
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
@@ -26,7 +29,7 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
 		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -39,7 +42,7 @@ public class JwtAuthenticationController {
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 
-    private void authenticate(String username, String password) throws Exception {
+	private void authenticate(String username, String password) throws Exception {
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (DisabledException e) {
@@ -47,6 +50,12 @@ public class JwtAuthenticationController {
 		} catch (BadCredentialsException e) {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ResponseEntity<?> saveUser(@RequestBody SignUpDTO user) throws Exception {
+		userDetailsService.save(user);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
 
 }
